@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_11_052531) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_11_071521) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "courses", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.string "department", null: false
+    t.string "course_code"
+    t.string "status", default: "active", null: false
+    t.bigint "term_id", null: false
+    t.bigint "instructor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instructor_id"], name: "index_courses_on_instructor_id"
+    t.index ["term_id"], name: "index_courses_on_term_id"
+  end
+
+  create_table "terms", force: :cascade do |t|
+    t.string "name", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_terms_on_name", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
@@ -24,4 +47,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_11_052531) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
+
+  add_foreign_key "courses", "terms"
+  add_foreign_key "courses", "users", column: "instructor_id"
 end

@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     namespace :v1, defaults: { format: :json } do
       resources :users, only: %i[create show]
       resources :auth, only: %i[create destroy]
+      resources :courses
+      resources :terms
     end
   end
 end
