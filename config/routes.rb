@@ -14,8 +14,9 @@ Rails.application.routes.draw do
       resources :users, only: %i[create show]
       resources :auth, only: %i[create destroy]
       resources :courses do 
-        resources :announcements
+        resources :announcements 
       end
+      resources :announcements, only: [:index]
       resources :terms
     end
   end

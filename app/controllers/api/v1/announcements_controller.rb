@@ -4,8 +4,7 @@ class Api::V1::AnnouncementsController < ApplicationController
   before_action :authorize_course_instructor, only: [:create, :update, :destroy]
   
   def index
-    @announcements = @course.announcements.recent
-    render :index
+    @announcements = @current_user.announcements.order(created_at: :desc).limit(5)
   end
   
   def create
