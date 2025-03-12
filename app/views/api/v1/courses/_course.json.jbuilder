@@ -1,6 +1,7 @@
 json.term do
   json.partial! 'api/v1/terms/term', term: course.term
 end
+json.id course.id
 json.title course.title
 json.description course.description
 json.department course.department

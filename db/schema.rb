@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_11_071521) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_11_152311) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "announcements", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "content"
+    t.boolean "is_read", default: false
+    t.bigint "course_id", null: false
+    t.bigint "author_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_announcements_on_author_id"
+    t.index ["course_id"], name: "index_announcements_on_course_id"
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
@@ -48,6 +60,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_11_071521) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "announcements", "courses"
+  add_foreign_key "announcements", "users", column: "author_id"
   add_foreign_key "courses", "terms"
   add_foreign_key "courses", "users", column: "instructor_id"
 end
